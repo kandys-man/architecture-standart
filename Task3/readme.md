@@ -45,12 +45,36 @@
 [Редактировать](https://www.plantuml.com/plantuml/uml/hLVVJoDL57xlNt7bgIHR42XgV75rbsWYkBjMusCpfLUssVweCrEL61Ea4jUWiXeIDyPWCF6zTAaCfPH_uTp_oFETWPrBxz1n4tOpm_JEdEyxvpi_xipT8FJyiDEevrwhDTVhdQfMZyEm7RmzF-zxNyrjrCB7dKedqFvwgndgPZYttchCj-jU4pQ58ApMQvNvUyN2GonzkhOwt_22KFkyLBx75bwjgVsvDZ_xZfVBXRMmhXNjKqGzUc6s-3pY_pr5GnhJkTcc0PtIEGturfZwYewenp-7UEAGx-B7CVNCbjdEvHvgFsWroojVX_drJX2s6jg_esRe3pfZ-07GBFkPsLnfanrhoFEXhckEezngQzyBMsBtDzkSyG5FHefF5-96Zsd7PeljBmdpkj6kjpQrXj4XtzjcTxhirZdJ3fdI_4p30gz_Jv7vJfZVQtMQLS_Vp5TUPwDtwLSwd9bLt-GK_tifKjwh181yHdrGqaYe8pfX6553GZddrRqaBbvcZg4iyWKJGaEHDCz8J3JB_DTuxbVorKev9kC7Uap0wXx7w6RNxCpmZGU-jrxNkA9_80A2CzlMOpHGCJx3Vvkp8bo0pNEe3_aabzk5AtzJegvnLVbD7POhNlC9R0yuZdC49kTJX0MWFe9J5Ds8F0stNDa0z6-CTG5f-NW1UP5oynFY-Tz4r4iNr8dZ9cdNIghqQ5MLjF-bzZCKdk84P4-Y3Hf1USCBBsloJpeicASSsYzqeW2G57PXih05oaxW8cDyw7t-n7EJzQYZEph_1SvbN_FV80oavU0L7sTecoCQeViG-GdgalhmbnSZXLL4E90id21WiylqDv9KTRiLrAQIICNtiabGfH_hkZKg9ZEsCBSmf-WlD1kNWhGVNqTeF8YlK3oe3KOTJX2WN95AcPpCbS6qA4m7R3VasR5xnJ01QWC2Rm8bIJdZBJBUxuno8ObzQdcD0INBef7fgj9QgI2rS6mJP3cy16bWn6XzgPz_wTYca4WmiCpUf3YzZ4ZGFGvXaGanNNVYva2sCTRjeeg0-ybgwHBLXN5c083Vk8pap7JD3mciZ1pqQC8GvvaVtBDKJ6DsUPmUYNaFhg7qRcAzZZw9vLLYm3Ud19812GZ8VWNrrXInNGH0MBjW3B8aDVsCXjmrNRJfrTR5lr0aM60tPR3PJHifL8fJCZHAYiRr6NJSHAbE9-2IlxxYIRoV4hupOG2vwEHe0Wuk7iTpWAE9ugcJ8KqnGnhCC_CZHRSYJF7sXIdUbZ2Jo6xVI1AMxgWY_iJJ6AxJo6LBKoQZAzq98Nn5uPE9Sq17SGFHMI9RDdDM1IoZ0W0kyXrXQx76VZBIJ5Ushuc9IWE7SNeDB7CqDvJ05b-Uc2vUUu23moa1Ptm1SSaTNwbecPNWZBJqGbYMVEpJsDxW5Je7M__Ba4vHoDQUC7Zb6W3LCbCzjv5b6ukPqRHuZqzOikU_lJalfqr-xC9A5Y85HXa1Eo9SHACuQ9j5Q1BGjE-N58RhNhf6rcUJhRHjZhSAp2P9RVB2DMQYCHntFfJa2UgRFPGgFC-LFdZmMNbrvVsLZ-xdPtDtTREAhyt_0000)
 
 #### Шифрование
-Для шифрования данных, передаваемых между сервисами, необходимо использовать HTTPS-протокол. 
+Для шифрования данных, передаваемых между сервисами, необходимо использовать HTTPS-протокол на TLS 1.3. 
 
 #### Контроль нагрузки
+Новые сервисы снабдить метриками контроля нагрузки.
 
 #### Вспомогательный сервис
+
+Поскольку текущая реализация интернет-банка не поддерживает взаимодействие в kafka, предлагается реализовать новый микросервис.
+В его функции будет входить:
+
+ - Хранение и отдача предложений по депозитам
+ - Получение запросов на депозиты от интернет банка
+ - Работа с СМС шлюзом
+ - Сохранение результатов выполнения процесса депозитов
+
+Для работы с депозитами на уровне АБС предлагается реализовать новый микросервис для взаимодействия с kafka.
+В его функции будет входить:
+
+ - Прием заявок на депозиты от менеджеров кол центра
+ - Прием заявок с сайта
+ - Прием заявок от ИБ
+ - Процесс обновления ставок
+ - Процесс расчета персональных ставок
+ - Обеспечение работоспособности workflow по депозитам
 
 ### <a name="_bjrr7veeh80c"></a>**Альтернативы**
 
 **Недостатки, ограничения, риски**
+
+ - Процессы недостаточно автоматизированы и оптимизированы
+ - Всё ещё требуется очное присутствие клиента в офисе
+ - Многие процессы можно было бы упростить.
+ - Нет разделения отвественности с подрядчиком
