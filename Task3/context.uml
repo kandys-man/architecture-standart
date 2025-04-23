@@ -1,0 +1,36 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Диаграмма контекстов банка Стандарт
+
+Person_Ext(customer, "Клиент банка")
+System_Ext(telecom_operator, "Телеком оператор")
+
+Enterprise_Boundary(c0, "Банк Стандарт") {
+    Person(employee, "Сотрудник бэк-офиса")
+    System(abs, "Автоматизированная банковская система (АБС)")
+    System(internet_bank, "Интернет-банк")
+    System(sms_gate, "СМС-шлюз телеком-оператора")
+}
+
+Rel(customer, internet_bank, "1. Просматривает список депозитов")
+
+Rel(customer, internet_bank, "2.1. Открывает депозит")
+Rel(internet_bank, sms_gate, "2.2. Запрашивает отправку SMS-код")
+Rel(customer, internet_bank, "2.4. Подтверждение открытия депозита")
+Rel(internet_bank, abs, "2.5. Передача заявки на открытие депозита")
+
+Rel(employee, abs, "3. Актуализирует личные ставки по депозитам")
+
+Rel(employee, abs, "4. Актуализирует общие ставки по депозитам")
+
+Rel(employee, abs, "5.1. Обрабатывает заявку на открытие депозита")
+Rel(internet_bank, sms_gate, "5.2. Отправка SMS об открытии депозита")
+
+Rel(sms_gate, telecom_operator, "Отправка SMS")
+Rel(telecom_operator, customer, "Доставка SMS")
+
+@enduml
+
