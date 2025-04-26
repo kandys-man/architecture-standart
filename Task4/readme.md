@@ -1,6 +1,6 @@
-﻿### <a name="_b7urdng99y53"></a>**Название задачи:** 
+﻿### <a name="_b7urdng99y53"></a>**Название задачи:** MP-ADR2 MVP Концептуальная архитектура для передачи ставок в кол-центры
 ### <a name="_hjk0fkfyohdk"></a>**Автор:**
-### <a name="_uanumrh8zrui"></a>**Дата:**
+### <a name="_uanumrh8zrui"></a>**Дата:*26.04.2025*
 ### <a name="_3bfxc9a45514"></a>**Функциональные требования**
 
 |**№**|**Действующие лица или системы**|**Use Case**|**Описание**|
@@ -17,6 +17,12 @@
 |1|Необходимо использовать партнерский кол-центр|
 |2|Партнерский кол-центр может получать данные только в виде файлов|
 
+### Список крупных задач для каждой системы для будущего планирования.
+1. Разработка и согласование описания формата файла ставок
+2. Доработка АБС для формирования файла ставок и передачи его в Kafka
+3. Доработка бэкенда кол-центра для получения и обработки ставок из очереди Kafka
+4. Доработка интерфейса кол-центра для показа ставок
+5. Согласование и доработка системы партнерского кол-центра для получения, обработки и показа ставок
 
 ### <a name="_qmphm5d6rvi3"></a>**Решение**
 
@@ -36,6 +42,9 @@
 ![](containers.png) 
 
 [Редактировать](https://www.plantuml.com/plantuml/uml/jLLDRnjL5DtxLpn6B1mf5fikCIfnim2AA7LPMszcNknHdcT6Cyzj8eGKGjKY5IXb0wfGeopOEoQcRaqdV-7EF-BSb_77s1CZBB58vkFUS-vvzzmxlfqQcPX1NzVU2q9F3tmbFcpT-g1rgzEAGYE3K2KVrJxs_VdJ0zcjExxhx8htqpW9Z6ewlZJIbQdgf2fvg18EQTLLeVz07Pb5M7Wp3cU7AVUrwglGMCBKH8diAilQax5gtey6eQ_ylUYepS_r7KJSRYlIKT9qTD3jcVRXyPuUMCW1Y8lGenuahVExW_H_u-u7NXArSVJ0Mph0lkK9KAUYI2jAmWCTFLB9ZMLMccYBYFIwYgWhPXSfq-z0KUsUIj8eh7iwWAfTuT1BcjA4nlGkFqLy5lO-bo7Qd736xnp5toNzHUFyHD1RocZQo9zSe_8J6iwHdVqZ0tIy2Nv5m_maF-MNk7vhwVwaR2DltPNUuIRIY_n7UYieon_J19oChBMFKwFwdJrsKIR7TUccZFsPNj2vWpjdHtnT4s8-iPmm213uwXCEtr4wxWKWMadnOnbp5cuRVjmeMis8J-L3oLSwPr4qOYa26gVvSqYZ2nf3sXN-FwKXv4_mca-9G8RpFkFKCU8PlKRi5DSHksjaDssMXwUawOvhLRaiUO_BVv58JwjTSUzke_tbtUfaFsQTBsY8MaC1MNF1UApIiPcMIKq4uuk-cAY1XqOGcflxae7wofv_1Eid484N_92nawEgGPdGcs9Cn69CeEIRMcqkPU6tEs2_FvC7XtBDQiGwYJIAC-WL365XcAVy1u4gh-dlOi2iIoLfpgupSqKqXGCY5h0-RPxKkeKbknxOb-NPXkYo7i-paqU_STYUzp5Itw1FrMjHnl9sM3zv2wpgom9NWbNgZCj2psve-cRzTk_ZsI7EsM0-1jeu_AyB3udtbIul_6mnwHVhmIMFvS8KI0IEGKNUR1te3-P4NKu72hSez8p6YtHUvkqHVhmPioeAqCBbOiBovpHUFGeIUiR4QnNB8qiNA9C1ChsUKXgNfXHeXYz_oMVkd45k1XlW3JSTq15GuygEbhxbyNOCnKzDwJVbLoJPtS-_NqBZzXtcFaE0gP-Wep-jiSJRqZ1FiMV5ncmZPE724ikPNRNlygVLRLW5BZwM_mfbv29zxi2hfM_dz8OXKes-33INlwr2Vz3NuXy0)
+
+#### Схема последовательности выполнения задач для MVP на горизонте 6 месяцев
+![](roadmap.png)
 
 ### <a name="_bjrr7veeh80c"></a>**Альтернативы**
 Сменить партнерскийм кол-центр. Он не дает возможности интеграции и развития.
