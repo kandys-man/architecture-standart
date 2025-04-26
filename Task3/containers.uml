@@ -1,0 +1,62 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml?a
+
+title Диаграмма контейнеров банка Стандарт
+
+Person_Ext(customer, "Клиент банка")
+System_Ext(telecom_operator, "Телеком оператор")
+
+Person(employee, "Сотрудник бэк-офиса")
+Boundary(b0, "AБС") {
+    Container(abs, "Автоматизированная банковская система (АБС)")
+    ContainerDb(db_abs, "База данных", "Oracle", "Хранит данные АБС")
+}
+
+Boundary(b1, "Интернет-банк") {
+    Container(internet_bank, "Основной сервис интернет-банк")
+    Container(internet_bank_bg, "Вспомогательный сервис интернет-банка")
+    ContainerDb(db_internet_bank, "База данных", "MS SQL Server", "Хранит данные интернет-банка")
+}
+Container(sms_gate, "СМС-шлюз телеком-оператора")
+
+
+Boundary(b2, "Kafka") {
+    ContainerQueue(queue_requests, "Канал обмена заявками на депозиты")
+    ContainerQueue(queue_deposits, "Канал обмена ставками на депозиты")
+}
+
+Rel(customer, internet_bank, "1.1. Просматривает список депозитов", "https")
+
+Rel(customer, internet_bank, "2.1. Открывает депозит", "https")
+Rel(internet_bank, sms_gate, "2.2. Запрашивает отправку SMS-код", "https")
+Rel(customer, internet_bank, "2.3. Подтверждает открытия депозита", "https")
+Rel(internet_bank, db_internet_bank, "2.4. Сохранение заявки", "TLS")
+Rel(db_internet_bank, internet_bank_bg, "2.6. Получение новых заявок для отправки", "TLS")
+Rel(internet_bank_bg, queue_requests, "2.6. Отправка новых заявок", "TLS")
+Rel(queue_requests, abs, "2.7. Получение новых заявок", "TLS")
+Rel(abs, db_abs, "2.8. Сохранение заявок", "TLS")
+
+Rel(employee, abs, "3.1. Актуализирует личные ставки по депозитам", "https")
+Rel(abs, db_abs, "3.2.1 Сохранение ставок в БД", "TLS")
+Rel(abs, queue_deposits, "3.2.2 Отправка ставок подписчикам", "TLS")
+
+Rel(employee, abs, "4.1. Актуализирует общие ставки по депозитам", "https")
+Rel(abs, db_abs, "4.2.1 Сохранение ставок в БД", "TLS")
+Rel(abs, queue_deposits, "4.2.2 Отправка ставок подписчикам", "TLS")
+
+Rel(queue_deposits, internet_bank_bg, "3.2.3, 4.2.3. Прием ставок по депозитам", "TLS")
+Rel(internet_bank_bg, db_internet_bank, "3.2.4, 4.2.4. Обновление ставок по депозитам", "TLS")
+
+Rel(employee, abs, "5.1. Обрабатывает заявку на открытие депозита", "https")
+Rel(abs, db_abs, "5.2. Сохранение результата", "TLS")
+Rel(abs, queue_requests, "5.3. Отправка результата подписчикам", "TLS")
+Rel(queue_requests, internet_bank_bg, "5.4. Доставка изменений в заявке", "TLS")
+Rel(internet_bank_bg, db_internet_bank, "5.5. Изменения статуса заявки", "TLS")
+Rel(internet_bank_bg, sms_gate, "5.6. Отправка SMS при необходимости", "TLS")
+
+Rel(sms_gate, telecom_operator, "Отправка SMS", "TLS")
+Rel(telecom_operator, customer, "Доставка SMS", "Защита на стороне оператора связи")
+
+
+SHOW_LEGEND()
+@enduml
